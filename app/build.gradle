@@ -4,7 +4,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.example.nygren23_facemakerapp"
+        applicationId "com.example.FaceMakerApp_nygren23"
         minSdkVersion 15
         targetSdkVersion 30
         versionCode 1
