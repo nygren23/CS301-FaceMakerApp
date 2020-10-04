@@ -25,16 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 //handling all component interactions using this class as the listener
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, SeekBar.OnSeekBarChangeListener, RadioGroup.OnCheckedChangeListener {
 
     private Face currFace;
     private FaceView currFaceView;
     public List<String> hairChoices = new ArrayList<String>();
-    private SeekBar redSB = null;
-    private SeekBar greenSB = null;
-    private SeekBar blueSB = null;
+    private SeekBar redSB;
+    private SeekBar greenSB;
+    private SeekBar blueSB;
     private Spinner hairSpinner;
-
 
 
     @Override
@@ -45,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //add the hair styles to the spinner
         hairChoices.add("Long");
-        hairChoices.add("Spikey");
-        hairChoices.add("Curly");
-        hairChoices.add("Buzzcut");
+        hairChoices.add("Flat Top");
+        hairChoices.add("Mohawk");
+        hairChoices.add("Bald");
 
         //find XML components by ID and assign them to java variables for reference
         currFaceView = findViewById(R.id.faceView);
@@ -79,15 +78,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         redSB.setOnSeekBarChangeListener(this);
         greenSB.setOnSeekBarChangeListener(this);
         blueSB.setOnSeekBarChangeListener(this);
+        radioGroup.setOnCheckedChangeListener(this);
 
 
-        radioGroup.clearCheck();
-        hairBtn.setChecked(true);
-        currFace.hairChecked = true;
+        eyesBtn.setChecked(true);
 
-        redSB.setProgress((int) currFace.hairColor.red());
-        greenSB.setProgress((int) currFace.hairColor.green());
-        blueSB.setProgress((int) currFace.hairColor.blue());
+        redSB.setProgress((int) currFace.eyeColor.red());
+        greenSB.setProgress((int) currFace.eyeColor.green());
+        blueSB.setProgress((int) currFace.eyeColor.blue());
 
         //spinner adapter
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, hairChoices);
@@ -97,57 +95,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         hairSpinner.setAdapter(spinnerAdapter);
         hairSpinner.setSelection(currFace.hairStyle);
 
-        radioGroup.setOnCheckedChangeListener(
-                new RadioGroup.OnCheckedChangeListener() {
 
-                    @Override
-
-                    // The flow will come here when
-                    // any of the radio buttons in the radioGroup
-                    // has been clicked
-
-                    // Check which radio button has been clicked
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                        // Get the selected Radio Button
-                        RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
-                        switch (checkedId) {
-                            case R.id.hair_radio:
-                                redSB.setProgress((int) currFace.hairColor.red());
-                                greenSB.setProgress((int) currFace.hairColor.green());
-                                blueSB.setProgress((int) currFace.hairColor.blue());
-                                Log.i("radio button testing", "hair button checked");
-                                currFace.hairChecked = true;
-                                currFace.eyesChecked = false;
-                                currFace.skinChecked = false;
-                                currFaceView.invalidate();
-                                break;
-                            case R.id.eyes_radio:
-                                redSB.setProgress((int) currFace.eyeColor.red());
-                                greenSB.setProgress((int) currFace.eyeColor.green());
-                                blueSB.setProgress((int) currFace.eyeColor.blue());
-                                Log.i("radio button testing", "eyes button checked");
-                                currFace.hairChecked = false;
-                                currFace.eyesChecked = true;
-                                currFace.skinChecked = false;
-                                currFaceView.invalidate();
-                                break;
-                            case R.id.skin_radio:
-                                redSB.setProgress((int) currFace.skinColor.red());
-                                greenSB.setProgress((int) currFace.skinColor.green());
-                                blueSB.setProgress((int) currFace.skinColor.blue());
-                                Log.i("radio button testing", "skin button checked");
-                                currFace.hairChecked = false;
-                                currFace.eyesChecked = false;
-                                currFace.skinChecked = true;
-                                currFaceView.invalidate();
-                                break;
-
-                        }
-                    }
-
-
-                });
 
     }
 
@@ -160,13 +108,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         currFace.hairStyle = position;
-        Log.i("Button testing", "Current Hair Style changed to " + hairChoices.get(position));
+
     }
 
 
     /*
-    *if nothing is selected, default
-    * to the first object
+     *if nothing is selected, default
+     * to the first object
      */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -176,28 +124,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.randomize){
+        if (v.getId() == R.id.randomize) {
             currFace.randomize();
-            if(currFace.hairChecked) {
-                currFaceView.invalidate();
+            if (currFace.hairChecked) {
                 redSB.setProgress((int) currFace.hairColor.red());
                 greenSB.setProgress((int) currFace.hairColor.green());
                 blueSB.setProgress((int) currFace.hairColor.blue());
-            } else if(currFace.eyesChecked) {
-                currFaceView.invalidate();
+
+            } else if (currFace.eyesChecked) {
+
                 redSB.setProgress((int) currFace.eyeColor.red());
                 greenSB.setProgress((int) currFace.eyeColor.green());
                 blueSB.setProgress((int) currFace.eyeColor.blue());
-            } else if(currFace.skinChecked) {
-                currFaceView.invalidate();
+
+            } else if (currFace.skinChecked) {
                 redSB.setProgress((int) currFace.skinColor.red());
                 greenSB.setProgress((int) currFace.skinColor.green());
                 blueSB.setProgress((int) currFace.skinColor.blue());
+
             }
             hairSpinner.setSelection(currFace.hairStyle);
-       }
+            currFaceView.invalidate();
+        }
 
-        if(v.getId() == R.id.quit_button){
+        if (v.getId() == R.id.quit_button) {
             finish();
         }
 
@@ -210,36 +160,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        switch(seekBar.getId()){
-            case R.id.red_seekbar:
-                if(currFace.hairChecked)
-                    currFace.hairColor = Color.valueOf(progress, currFace.hairColor.green(), currFace.hairColor.blue());
-                if(currFace.eyesChecked)
-                    currFace.eyeColor = Color.valueOf(progress, currFace.eyeColor.green(), currFace.eyeColor.blue());
-                if(currFace.skinChecked)
-                    currFace.skinColor = Color.valueOf(progress, currFace.skinColor.green(), currFace.skinColor.blue());
-                currFaceView.invalidate();
-                break;
-            case R.id.green_seekbar:
-                if(currFace.hairChecked)
-                    currFace.hairColor = Color.valueOf(currFace.hairColor.red(), progress, currFace.hairColor.blue());
-                if(currFace.eyesChecked)
-                    currFace.eyeColor = Color.valueOf(currFace.eyeColor.red(), progress, currFace.eyeColor.blue());
-                if(currFace.skinChecked)
-                    currFace.skinColor = Color.valueOf(currFace.skinColor.red(), progress, currFace.skinColor.blue());
-                currFaceView.invalidate();
-                break;
-            case R.id.blue_seekbar:
-                if(currFace.hairChecked)
-                    currFace.hairColor = Color.valueOf(currFace.hairColor.red(), currFace.hairColor.green(), progress);
-                if(currFace.eyesChecked)
-                    currFace.eyeColor = Color.valueOf(currFace.eyeColor.red(), currFace.eyeColor.green(), progress);
-                if(currFace.skinChecked)
-                    currFace.skinColor = Color.valueOf(currFace.skinColor.red(), currFace.skinColor.green(), progress);
-                currFaceView.invalidate();
-                break;
-
+        if(fromUser) {
+            switch (seekBar.getId()) {
+                case R.id.red_seekbar:
+                    if (currFace.hairChecked) {
+                        currFace.hairColor = Color.valueOf(progress, currFace.hairColor.green(), currFace.hairColor.blue());
+                    } else if (currFace.eyesChecked) {
+                        currFace.eyeColor = Color.valueOf(progress, currFace.eyeColor.green(), currFace.eyeColor.blue());
+                    } else if (currFace.skinChecked) {
+                        currFace.skinColor = Color.valueOf(progress, currFace.skinColor.green(), currFace.skinColor.blue());
+                    }
+                    break;
+                case R.id.green_seekbar:
+                    if (currFace.hairChecked) {
+                        currFace.hairColor = Color.valueOf(currFace.hairColor.red(), progress, currFace.hairColor.blue());
+                    } else if (currFace.eyesChecked) {
+                        currFace.eyeColor = Color.valueOf(currFace.eyeColor.red(), progress, currFace.eyeColor.blue());
+                    } else if (currFace.skinChecked) {
+                        currFace.skinColor = Color.valueOf(currFace.skinColor.red(), progress, currFace.skinColor.blue());
+                    }
+                    break;
+                case R.id.blue_seekbar:
+                    if (currFace.hairChecked) {
+                        currFace.hairColor = Color.valueOf(currFace.hairColor.red(), currFace.hairColor.green(), progress);
+                    } else if (currFace.eyesChecked) {
+                        currFace.eyeColor = Color.valueOf(currFace.eyeColor.red(), currFace.eyeColor.green(), progress);
+                    } else if (currFace.skinChecked) {
+                        currFace.skinColor = Color.valueOf(currFace.skinColor.red(), currFace.skinColor.green(), progress);
+                    }
+                    break;
+            }
+            currFaceView.invalidate();
         }
+
+
     }
 
     @Override
@@ -254,4 +208,41 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //do not need to track for this app
     }
 
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.hair_radio:
+                redSB.setProgress((int) currFace.hairColor.red());
+                greenSB.setProgress((int) currFace.hairColor.green());
+                blueSB.setProgress((int) currFace.hairColor.blue());
+
+                currFace.hairChecked = true;
+                currFace.eyesChecked = false;
+                currFace.skinChecked = false;
+
+                break;
+            case R.id.eyes_radio:
+                redSB.setProgress((int) currFace.eyeColor.red());
+                greenSB.setProgress((int) currFace.eyeColor.green());
+                blueSB.setProgress((int) currFace.eyeColor.blue());
+
+                currFace.hairChecked = false;
+                currFace.eyesChecked = true;
+                currFace.skinChecked = false;
+
+                break;
+            case R.id.skin_radio:
+                redSB.setProgress((int) currFace.skinColor.red());
+                greenSB.setProgress((int) currFace.skinColor.green());
+                blueSB.setProgress((int) currFace.skinColor.blue());
+
+                currFace.hairChecked = false;
+                currFace.eyesChecked = false;
+                currFace.skinChecked = true;
+
+                break;
+
+        }
+        currFaceView.invalidate();
+    }
 }
