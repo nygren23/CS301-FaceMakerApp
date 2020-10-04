@@ -8,15 +8,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:gravity="top"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
-        <SurfaceView
-            android:id="@+id/surfaceView"
+        <com.example.nygren23_facemakerapp.FaceView
+            android:id="@+id/faceView"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="700dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,26 +35,34 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/radioButton3"
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Hair" />
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
 
-            <RadioButton
-                android:id="@+id/radioButton2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Eyes" />
+                <RadioButton
+                    android:id="@+id/hair_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hair" />
 
-            <RadioButton
-                android:id="@+id/radioButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Skin" />
+                <RadioButton
+                    android:id="@+id/eyes_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Eyes" />
+
+                <RadioButton
+                    android:id="@+id/skin_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Skin" />
+            </RadioGroup>
+
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +78,7 @@
                 android:text="Red" />
 
             <SeekBar
-                android:id="@+id/seekBar3"
+                android:id="@+id/red_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,7 +93,7 @@
                 android:text="Green" />
 
             <SeekBar
-                android:id="@+id/seekBar2"
+                android:id="@+id/green_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -100,7 +108,7 @@
                 android:text="Blue" />
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:id="@+id/blue_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -125,9 +133,16 @@
                 android:text="Random Face" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/hair_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp" />
+
+            <Button
+                android:id="@+id/quit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quit" />
         </LinearLayout>
 
     </LinearLayout>
