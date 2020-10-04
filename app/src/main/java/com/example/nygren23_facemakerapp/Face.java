@@ -20,17 +20,17 @@ public class Face {
     public int hairStyle;
 
     public Face() {
-        hairChecked = false;
-        eyesChecked = true;
+        hairChecked = true;
+        eyesChecked = false;
         skinChecked = false;
         hairStyle = 2;
         randomize();
     }
 
     //randomize values to begin for the face colors needed
-
     public void randomize(){
 
+        //temporary color place holders to use as assigning new random colors
         int tempRed;
         int tempGreen;
         int tempBlue;

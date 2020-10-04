@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         radioGroup.setOnCheckedChangeListener(this);
 
 
-        eyesBtn.setChecked(true);
+        //sets the hair button to default selected with its colors showing on the seekbars
+        hairBtn.setChecked(true);
+        redSB.setProgress((int) currFace.hairColor.red());
+        greenSB.setProgress((int) currFace.hairColor.green());
+        blueSB.setProgress((int) currFace.hairColor.blue());
 
-        redSB.setProgress((int) currFace.eyeColor.red());
-        greenSB.setProgress((int) currFace.eyeColor.green());
-        blueSB.setProgress((int) currFace.eyeColor.blue());
-
-        //spinner adapter
+        //spinner adapter for hairstyles
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, hairChoices);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -121,11 +121,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         currFace.hairStyle = 0;
     }
 
+    /*
+    *handles which button (random or quit) is clicked and handles accordingly
+     */
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.randomize) {
             currFace.randomize();
+            //displays relevant information for whichever radio button is selected at the time of randomization
             if (currFace.hairChecked) {
                 redSB.setProgress((int) currFace.hairColor.red());
                 greenSB.setProgress((int) currFace.hairColor.green());
@@ -156,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     /*
-    TODO add progress changed code for user sliding on SeekBar
+    *ensures that the user adjusted the progress bar and then sets the selected element's color
      */
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -208,6 +212,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //do not need to track for this app
     }
 
+    /*
+    *handles all the radio buttons as a radiogroup
+    * checks which radio button was clicked with a switch
+    * and sets the model values/seekbar values to reflect it
+    * after setting, redraws face with new colors
+     */
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
